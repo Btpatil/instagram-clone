@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  static final _defaultLightColorScheme =
+      ColorScheme.fromSwatch(primarySwatch: Colors.blue);
+
+  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
+      primarySwatch: Colors.blue, brightness: Brightness.dark);
+  // This widget is the root of your application0.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -31,39 +37,49 @@ class MyApp extends StatelessWidget {
           create: (_) => UserProvider(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
-        ),
-        // home: const ResponsiveLayout(
-        //   mobileScreenLayout: MobileScreenLayout(),
-        //   webScreenLayout: WebScreenLayout(),
-        // ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return const ResponsiveLayout(
-                  mobileScreenLayout: MobileScreenLayout(),
-                  webScreenLayout: WebScreenLayout(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text("${snapshot.error}"),
-                );
-              }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return const LoginScreen();
-          },
-        ),
+      child: DynamicColorBuilder(
+        builder: (lightDynamic, darkDynamic) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              colorScheme: lightDynamic ?? _defaultLightColorScheme,
+              useMaterial3: true,
+            ),
+            darkTheme: ThemeData(
+              colorScheme: darkDynamic ?? _defaultDarkColorScheme,
+              useMaterial3: true,
+            ),
+            themeMode: ThemeMode.dark,
+            // home: const ResponsiveLayout(
+            //   mobileScreenLayout: MobileScreenLayout(),
+            //   webScreenLayout: WebScreenLayout(),
+            // ),
+            home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.active) {
+                  if (snapshot.hasData) {
+                    return const ResponsiveLayout(
+                      mobileScreenLayout: MobileScreenLayout(),
+                      webScreenLayout: WebScreenLayout(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("${snapshot.error}"),
+                    );
+                  }
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return const LoginScreen();
+              },
+            ),
+          );
+        },
       ),
     );
   }
