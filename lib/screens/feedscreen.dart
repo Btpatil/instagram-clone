@@ -25,7 +25,7 @@ class _FeedScree extends State<FeedScree> {
               centerTitle: false,
               title: SvgPicture.asset(
                 'assets/ic_instagram.svg',
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.primary,
                 height: 32,
               ),
               actions: [
@@ -40,7 +40,7 @@ class _FeedScree extends State<FeedScree> {
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class FollowButton extends StatefulWidget {
@@ -35,6 +34,8 @@ class _FollowButtonState extends State<FollowButton> {
             borderRadius: BorderRadius.circular(5),
           ),
           alignment: Alignment.center,
+          width: 200,
+          height: 30,
           child: Text(
             widget.text,
             style: TextStyle(
@@ -42,8 +43,6 @@ class _FollowButtonState extends State<FollowButton> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          width: 200,
-          height: 30,
         ),
       ),
     );

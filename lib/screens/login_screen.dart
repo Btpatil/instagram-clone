@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram/main.dart';
 import 'package:instagram/resources/auth_methods.dart';
-import 'package:instagram/responsive/web_screen_layout.dart';
-import 'package:instagram/screens/home_page.dart';
 import 'package:instagram/screens/sign_up_screen.dart';
 import 'package:instagram/utils/colors.dart';
 import 'package:instagram/utils/global_variables.dart';
@@ -49,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -72,12 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
-                  child: Container(),
                   flex: 2,
+                  child: Container(),
                 ),
                 SvgPicture.asset(
                   "assets/ic_instagram.svg",
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 64,
                 ),
                 const SizedBox(
@@ -88,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: "Enter Your Email",
                   textInputType: TextInputType.emailAddress,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 TextFeildInput(
@@ -97,43 +94,47 @@ class _LoginScreenState extends State<LoginScreen> {
                   textInputType: TextInputType.text,
                   isPass: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 InkWell(
                   onTap: logInUser,
                   child: Container(
-                    child: isLoading
-                        ? CircularProgressIndicator(
-                            // backgroundColor: Colors.black,
-                            color: Colors.white,
-                          )
-                        : Text("Log In"),
                     width: double.infinity,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(4),
                         ),
                       ),
-                      color: blueColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
+                    child: isLoading
+                        ? const CircularProgressIndicator(
+                            // backgroundColor: Colors.black,
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Log In",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary),
+                          ),
                   ),
                 ),
                 Flexible(
-                  child: Container(),
                   flex: 2,
+                  child: Container(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Text("Dont have an Account?"),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 8,
                       ),
+                      child: const Text("Dont have an Account?"),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -141,21 +142,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return SignUpScreen();
+                              return const SignUpScreen();
                             },
                           ),
                         );
                       },
                       child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                        ),
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: blueColor,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 8,
                         ),
                       ),
                     ),

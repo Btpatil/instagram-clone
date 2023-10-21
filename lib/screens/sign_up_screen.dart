@@ -28,7 +28,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -98,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 SvgPicture.asset(
                   "assets/ic_instagram.svg",
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 64,
                 ),
                 const SizedBox(
@@ -168,20 +167,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: double.infinity,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: const ShapeDecoration(
-                      shape: RoundedRectangleBorder(
+                    decoration: ShapeDecoration(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(4),
                         ),
                       ),
-                      color: blueColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     child: isLoading
                         ? const CircularProgressIndicator(
                             // backgroundColor: Colors.black,
                             color: Colors.white,
                           )
-                        : const Text("Sign Up"),
+                        : Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
                   ),
                 ),
                 Flexible(
@@ -212,11 +216,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.symmetric(
                           vertical: 8,
                         ),
-                        child: const Text(
+                        child: Text(
                           "Log In",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: blueColor,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),

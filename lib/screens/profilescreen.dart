@@ -38,7 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
     // setState(() {
@@ -118,17 +117,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     FirebaseAuth.instance.currentUser!.uid ==
                                             widget.uid
                                         ? FollowButton(
-                                            bgColor: mobileBackgroundColor,
-                                            borderColor: Colors.grey,
+                                            bgColor: Theme.of(context)
+                                                .colorScheme
+                                                .background,
+                                            borderColor: Theme.of(context)
+                                                .colorScheme
+                                                .error,
                                             text: 'Sign Out',
-                                            textColor: primaryColor,
+                                            textColor: Theme.of(context)
+                                                .colorScheme
+                                                .error,
                                             function: () async {
                                               await AuthMethods().SignOut();
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(
                                                   builder: (context) {
-                                                    return LoginScreen();
+                                                    return const LoginScreen();
                                                   },
                                                 ),
                                               );
@@ -136,17 +141,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           )
                                         : isFollowing
                                             ? FollowButton(
-                                                bgColor: Colors.white,
-                                                borderColor: blueColor,
+                                                bgColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                borderColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary,
                                                 text: 'Unfollow',
-                                                textColor: Colors.black,
+                                                textColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimary,
                                                 function: followFunc,
                                               )
                                             : FollowButton(
-                                                bgColor: blueColor,
-                                                borderColor: blueColor,
+                                                bgColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                borderColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
                                                 text: 'Follow',
-                                                textColor: Colors.white,
+                                                textColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimary,
                                                 function: followFunc,
                                               ),
                                   ],

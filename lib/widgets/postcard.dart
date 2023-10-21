@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/models/user.dart';
+import 'package:instagram/models/user.dart' as model;
 import 'package:instagram/providers/user_providers.dart';
 import 'package:instagram/resources/firestoremethods.dart';
 import 'package:instagram/screens/commentscreen.dart';
@@ -21,14 +22,19 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
   bool isPostDeleting = false;
-  List<String> options = ['download'];
+  List<String> options = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.postData['uid'] == FirebaseAuth.instance.currentUser!.uid) {
+      options = ['Delete'];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).getUser;
-    if (widget.postData['uid'] == user.uid) {
-      options.add('Delete');
-    }
+    final model.User user = Provider.of<UserProvider>(context).getUser;
 
     return Container(
       color: mobileBackgroundColor,
@@ -66,46 +72,50 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                          child: ListView(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shrinkWrap: true,
-                              children: options
-                                  .map(
-                                    (e) => InkWell(
-                                      onTap: () async {
-                                        if (e.toString() == 'Delete') {
-                                          String res = await FirestoreMethods()
-                                              .deletePost(
-                                                  widget.postData['postId']);
-                                          if (res == 'success') {
-                                            showSnackBar(
-                                                'Post deleted', context);
-                                            Navigator.of(context).pop();
-                                          } else {
-                                            showSnackBar(res, context);
-                                            Navigator.of(context).pop();
-                                          }
-                                        } else {
-                                          Navigator.of(context).pop();
-                                        }
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 16),
-                                        child: Text(e),
-                                      ),
-                                    ),
-                                  )
-                                  .toList()),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.more_vert))
+                options.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              child: ListView(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  shrinkWrap: true,
+                                  children: options
+                                      .map(
+                                        (e) => InkWell(
+                                          onTap: () async {
+                                            if (e.toString() == 'Delete') {
+                                              String res =
+                                                  await FirestoreMethods()
+                                                      .deletePost(widget
+                                                          .postData['postId']);
+                                              if (res == 'success') {
+                                                showSnackBar(
+                                                    'Post deleted', context);
+                                                Navigator.of(context).pop();
+                                              } else {
+                                                showSnackBar(res, context);
+                                                Navigator.of(context).pop();
+                                              }
+                                            } else {
+                                              Navigator.of(context).pop();
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
+                                            child: Text(e),
+                                          ),
+                                        ),
+                                      )
+                                      .toList()),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.more_vert))
+                    : Container(),
               ],
             ),
           ),

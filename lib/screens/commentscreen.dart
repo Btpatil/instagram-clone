@@ -22,7 +22,6 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     comment.dispose();
   }
@@ -35,7 +34,7 @@ class _CommentScreenState extends State<CommentScreen> {
       backgroundColor: mobileBackgroundColor,
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
-        title: const Text('commnets'),
+        title: const Text('Comments'),
         centerTitle: false,
       ),
       body: StreamBuilder(
@@ -114,10 +113,11 @@ class _CommentScreenState extends State<CommentScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 8),
-                      child: const Text(
+                      child: Text(
                         'Post',
                         style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.w800),
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                   )
