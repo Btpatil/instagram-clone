@@ -104,7 +104,7 @@ class FirestoreMethods {
           .get();
       Map<String, dynamic> snapData = snap.data() as dynamic;
       List following = snapData['following'];
-      List followers = snapData['followers'];
+      // List followers = snapData['followers'];
       // print(snapData);
 
       if (following.contains(followId)) {
